@@ -1,30 +1,35 @@
 package com.clockworkjava.kursspring;
 
-import com.clockworkjava.kursspring.domain.Castle;
-import com.clockworkjava.kursspring.domain.Knight;
-import com.clockworkjava.kursspring.domain.Quest;
+import com.clockworkjava.kursspring.domain.repository.KnightRepository;
+import com.clockworkjava.kursspring.domain.repository.QuestRepository;
+import com.clockworkjava.kursspring.services.QuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("singleton")
 public class Starter implements CommandLineRunner {
 
     @Autowired
-    private Castle castle;
+    private KnightRepository knightRepository;
+
+    @Autowired
+    private QuestRepository questRepository;
+
+    @Autowired
+    private QuestService questService;
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(castle);
+        questRepository.createRandomQuest();
+        questRepository.createRandomQuest();
 
-//        Quest saveThePrincess = new Quest("Uratuj księżniczkę");
-//        Knight lancelot = new Knight("Lancelot", 29,saveThePrincess);
-//        System.out.println(lancelot);
-//
-//        Quest killTheDragon = new Quest("Zabij smoka");
-//        Knight percival = new Knight("Percival", 31);
-//        System.out.println(percival);
-//        percival.setQuest(killTheDragon);
-//        System.out.println(percival);
+        System.out.println(knightRepository);
+
+        questService.assignRandomQuest("Lancelot");
+        questService.assignRandomQuest("Percival");
+
     }
 }
