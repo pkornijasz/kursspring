@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-@Primary
 public class InMemoryRepository implements KnightRepository {
 
     Map<Integer, Knight> knights = new HashMap<>();

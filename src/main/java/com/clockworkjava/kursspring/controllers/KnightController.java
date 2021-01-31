@@ -3,6 +3,7 @@ package com.clockworkjava.kursspring.controllers;
 import com.clockworkjava.kursspring.components.TimeComponent;
 import com.clockworkjava.kursspring.domain.Knight;
 import com.clockworkjava.kursspring.domain.PlayerInformation;
+import com.clockworkjava.kursspring.domain.repository.PlayerInformationRepository;
 import com.clockworkjava.kursspring.services.KnightService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,17 +21,18 @@ public class KnightController {
 
     final KnightService service;
     final TimeComponent timeComponent;
-    final PlayerInformation playerInformation;
+    final PlayerInformationRepository playerInformationRepository;
 
-    public KnightController(KnightService service, TimeComponent timeComponent, PlayerInformation playerInformation) {
+    public KnightController(KnightService service, TimeComponent timeComponent, PlayerInformationRepository playerInformationRepository) {
         this.service = service;
         this.timeComponent = timeComponent;
-        this.playerInformation = playerInformation;
+        this.playerInformationRepository = playerInformationRepository;
     }
 
     @GetMapping("/knights")
     public String getKnights(Model model) {
         List<Knight> allKnights = service.getAllKnights();
+        PlayerInformation playerInformation = playerInformationRepository.getFirst();
         model.addAttribute("knights", allKnights);
         model.addAttribute("timecomponent", timeComponent);
         model.addAttribute("playerinformation", playerInformation);
@@ -39,6 +41,7 @@ public class KnightController {
 
     @GetMapping("/newknight")
     public String createKnight(Model model) {
+        PlayerInformation playerInformation = playerInformationRepository.getFirst();
         model.addAttribute("knight", new Knight());
         model.addAttribute("timecomponent", timeComponent);
         model.addAttribute("playerinformation", playerInformation);
@@ -48,6 +51,7 @@ public class KnightController {
     @GetMapping("/knight")
     public String getKnight(@RequestParam("id") Integer id, Model model) {
         Knight knight = service.getKnight(id);
+        PlayerInformation playerInformation = playerInformationRepository.getFirst();
         model.addAttribute("knight", knight);
         model.addAttribute("timecomponent", timeComponent);
         model.addAttribute("playerinformation", playerInformation);

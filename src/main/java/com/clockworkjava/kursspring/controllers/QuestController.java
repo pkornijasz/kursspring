@@ -1,8 +1,8 @@
 package com.clockworkjava.kursspring.controllers;
 
 import com.clockworkjava.kursspring.domain.Knight;
-import com.clockworkjava.kursspring.domain.PlayerInformation;
 import com.clockworkjava.kursspring.domain.Quest;
+import com.clockworkjava.kursspring.domain.repository.PlayerInformationRepository;
 import com.clockworkjava.kursspring.services.KnightService;
 import com.clockworkjava.kursspring.services.QuestService;
 import org.springframework.stereotype.Controller;
@@ -19,12 +19,11 @@ public class QuestController {
 
     final KnightService knightService;
     final QuestService questService;
-    final PlayerInformation playerInformation;
 
-    public QuestController(KnightService knightService, QuestService questService, PlayerInformation playerInformation) {
+
+    public QuestController(KnightService knightService, QuestService questService) {
         this.knightService = knightService;
         this.questService = questService;
-        this.playerInformation = playerInformation;
     }
 
     @GetMapping("/assignquest")

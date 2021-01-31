@@ -1,30 +1,44 @@
 package com.clockworkjava.kursspring;
 
+import com.clockworkjava.kursspring.domain.PlayerInformation;
 import com.clockworkjava.kursspring.domain.repository.KnightRepository;
+import com.clockworkjava.kursspring.domain.repository.PlayerInformationRepository;
 import com.clockworkjava.kursspring.domain.repository.QuestRepository;
 import com.clockworkjava.kursspring.services.QuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Scope("singleton")
 public class Starter implements CommandLineRunner {
 
-    @Autowired
-    private KnightRepository knightRepository;
+    private final KnightRepository knightRepository;
+
+    private final QuestRepository questRepository;
+
+    private final QuestService questService;
 
     @Autowired
-    private QuestRepository questRepository;
+    PlayerInformationRepository playerInformationRepository;
 
-    @Autowired
-    private QuestService questService;
+    public Starter(KnightRepository knightRepository, QuestRepository questRepository, QuestService questService) {
+        this.knightRepository = knightRepository;
+        this.questRepository = questRepository;
+        this.questService = questService;
+    }
 
     @Override
-    public void run(String... args) throws Exception {
+    @Transactional
+    public void run(String... args) throws Exception{
         questRepository.createRandomQuest();
         questRepository.createRandomQuest();
+
+        knightRepository.createKnight("Percival", 32);
+
+        playerInformationRepository.createPlayerInformation(new PlayerInformation());
 
         questService.assignRandomQuest("Percival");
     }
