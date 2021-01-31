@@ -15,8 +15,7 @@ public class PlayerInformationRepository {
 
     @Transactional
     public void createPlayerInformation(PlayerInformation playerInformation) {
-        PlayerInformation pi = new PlayerInformation();
-        em.persist(pi);
+        em.persist(playerInformation);
 
     }
 
